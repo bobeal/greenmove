@@ -16,6 +16,7 @@ class Routes(
                 .nest {
                     "/profile".nest {
                         POST("", profileHandler::create)
+                        GET("/{id}", profileHandler::getById)
                     }
                 }
     }
