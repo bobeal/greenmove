@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.3.50"
 	kotlin("plugin.spring") version "1.3.50"
 	kotlin("plugin.noarg") version "1.3.50"
+	id("com.google.cloud.tools.jib") version "1.6.1"
 }
 
 group = "fr.greensaver"
@@ -39,5 +40,19 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+jib {
+	from {
+		image = "openjdk:alpine"
+	}
+	to {
+		image = "bobeal/greenmove"
+	}
+	container {
+		jvmFlags = listOf("-Xms256m")
+		ports = listOf("8080")
+		creationTime = "USE_CURRENT_TIMESTAMP"
 	}
 }
