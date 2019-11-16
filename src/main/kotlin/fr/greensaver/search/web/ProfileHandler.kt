@@ -73,10 +73,10 @@ class ProfileHandler(
 
     fun addArticle(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(req.pathVariable("articleReference"))
-                .map {
-                    articleRepository.findByReference(it).orElseGet {
-                        val articleEs = articleESRepository.getArticleById(it)
-                        articleRepository.save(Article(reference = it, treesReward = articleEs.tree))
+                .map { articleReference ->
+                    articleRepository.findByReference(articleReference).orElseGet {
+                        val articleEs = articleESRepository.findAll().find { article -> article.id == articleReference }!!
+                        articleRepository.save(Article(reference = articleReference, treesReward = articleEs.tree))
                     }
                 }
                 .map {
