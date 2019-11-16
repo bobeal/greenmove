@@ -15,9 +15,12 @@ class Profile(
         @Property(name = "livesInHouse") var livesInHouse: Boolean,
         @Property(name = "preferredMeansOfTransport") var preferredMeansOfTransport: String,
         @Property(name = "postalCode") var postalCode: String,
-        @Relationship(type = "INTERESTED_IN", direction = Relationship.OUTGOING) var topics: ArrayList<Topic> = arrayListOf()
+        @Relationship(type = "INTERESTED_IN", direction = Relationship.OUTGOING) var topics: ArrayList<Topic> = arrayListOf(),
+        @Relationship(type = "HAS_READ", direction = Relationship.OUTGOING) var readArticles: ArrayList<Article> = arrayListOf()
 ) {
     fun addTopic(topic: Topic) = this.topics.add(topic)
+
+    fun addReadArticle(article: Article) = this.readArticles.add(article)
 }
 
 enum class MeansOfTransport {

@@ -1,6 +1,8 @@
 package fr.greensaver.search.web
 
+import fr.greensaver.search.model.Article
 import fr.greensaver.search.model.Profile
+import fr.greensaver.search.repository.ArticleRepository
 import fr.greensaver.search.repository.ProfileRepository
 import fr.greensaver.search.repository.TopicRepository
 import org.springframework.http.HttpStatus
@@ -13,11 +15,14 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 import java.net.URI
+import java.time.Instant
+import java.time.LocalDateTime
 
 @Component
 class ProfileHandler(
         private val profileRepository: ProfileRepository,
-        private val topicRepository: TopicRepository
+        private val topicRepository: TopicRepository,
+        private val articleRepository: ArticleRepository
 ) {
 
     fun create(req: ServerRequest): Mono<ServerResponse> {
@@ -51,6 +56,27 @@ class ProfileHandler(
                 .map {
                     profileRepository.findById(req.pathVariable("id")).map { profile ->
                         profile.addTopic(it)
+                        profile
+                    }.orElseThrow()
+                }
+                .map {
+                    profileRepository.save(it)
+                }
+                .flatMap {
+                    ok().build()
+                }
+    }
+
+    fun addArticle(req: ServerRequest): Mono<ServerResponse> {
+        return Mono.just(req.pathVariable("articleReference"))
+                .map {
+                    articleRepository.findById(it).orElseGet {
+                        articleRepository.save(Article(reference = it, readAt = Instant.now()))
+                    }
+                }
+                .map {
+                    profileRepository.findById(req.pathVariable("id")).map { profile ->
+                        profile.addReadArticle(it)
                         profile
                     }.orElseThrow()
                 }

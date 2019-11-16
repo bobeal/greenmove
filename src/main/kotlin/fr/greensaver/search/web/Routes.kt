@@ -19,6 +19,7 @@ class Routes(
                         POST("", profileHandler::create)
                         GET("/{id}", profileHandler::getById)
                         POST("/{id}/topic/{topicId}", profileHandler::addTopic)
+                        POST("/{id}/article/{articleReference}", profileHandler::addArticle)
                     }
                     "/topic".nest {
                         GET("", topicHandler::getAll)
