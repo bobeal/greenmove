@@ -1,4 +1,4 @@
-package fr.greensaver.search.model
+package fr.greensaver.search.model.neo4j
 
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity

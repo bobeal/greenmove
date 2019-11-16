@@ -1,10 +1,12 @@
 package fr.greensaver.search.web
 
-import fr.greensaver.search.model.Article
-import fr.greensaver.search.model.Profile
-import fr.greensaver.search.repository.ArticleRepository
-import fr.greensaver.search.repository.ProfileRepository
-import fr.greensaver.search.repository.TopicRepository
+import fr.greensaver.search.model.neo4j.Article
+import fr.greensaver.search.model.neo4j.Profile
+import fr.greensaver.search.model.neo4j.ReadArticle
+import fr.greensaver.search.repository.neo4j.ArticleRepository
+import fr.greensaver.search.repository.neo4j.ProfileRepository
+import fr.greensaver.search.repository.neo4j.TopicRepository
+import fr.greensaver.search.repository.es.ArticleESRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
@@ -21,7 +23,8 @@ import java.time.Instant
 class ProfileHandler(
         private val profileRepository: ProfileRepository,
         private val topicRepository: TopicRepository,
-        private val articleRepository: ArticleRepository
+        private val articleRepository: ArticleRepository,
+        private val articleESRepository: ArticleESRepository
 ) {
 
     fun create(req: ServerRequest): Mono<ServerResponse> {
@@ -69,13 +72,15 @@ class ProfileHandler(
     fun addArticle(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(req.pathVariable("articleReference"))
                 .map {
-                    articleRepository.findById(it).orElseGet {
-                        articleRepository.save(Article(reference = it, readAt = Instant.now(), treesWon = 1))
+                    articleRepository.findByReference(it).orElseGet {
+                        val articleEs = articleESRepository.getArticleById(it)
+                        articleRepository.save(Article(reference = it, treesReward = articleEs.tree))
                     }
                 }
                 .map {
                     profileRepository.findById(req.pathVariable("id")).map { profile ->
-                        profile.addReadArticle(it)
+                        val readArticle = ReadArticle(readAt = Instant.now(), profile = profile, article = it)
+                        profile.addReadArticle(readArticle, it.treesReward)
                         profile
                     }.orElseThrow()
                 }

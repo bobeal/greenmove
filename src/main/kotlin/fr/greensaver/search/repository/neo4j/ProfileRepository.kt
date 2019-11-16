@@ -1,6 +1,6 @@
-package fr.greensaver.search.repository
+package fr.greensaver.search.repository.neo4j
 
-import fr.greensaver.search.model.Profile
+import fr.greensaver.search.model.neo4j.Profile
 import org.springframework.data.neo4j.annotation.Query
 import org.springframework.data.neo4j.repository.Neo4jRepository
 import org.springframework.stereotype.Repository

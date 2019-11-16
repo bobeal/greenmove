@@ -1,7 +1,7 @@
 package fr.greensaver.search
 
-import fr.greensaver.search.model.Topic
-import fr.greensaver.search.repository.TopicRepository
+import fr.greensaver.search.model.neo4j.Topic
+import fr.greensaver.search.repository.neo4j.TopicRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Bean
 
 
 @Configuration
-@EnableNeo4jRepositories(basePackages = ["fr.greensaver.search.repository"])
-@EntityScan(basePackages = ["fr.greensaver.search.model"])
+@EnableNeo4jRepositories(basePackages = ["fr.greensaver.search.repository.neo4j"])
+@EntityScan(basePackages = ["fr.greensaver.search.model.neo4j"])
 class Neo4jConfiguration {
 
     @Bean
     fun sessionFactory(): SessionFactory {
-        return SessionFactory(configuration(), "fr.greensaver.search.model")
+        return SessionFactory(configuration(), "fr.greensaver.search.model.neo4j")
     }
 
     @Bean

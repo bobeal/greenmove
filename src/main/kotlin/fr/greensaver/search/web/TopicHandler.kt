@@ -1,6 +1,6 @@
 package fr.greensaver.search.web
 
-import fr.greensaver.search.repository.TopicRepository
+import fr.greensaver.search.repository.neo4j.TopicRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
