@@ -35,3 +35,15 @@ http POST http://localhost:8080/api/profile/0b9c9f33-4fb1-4dbd-91c8-869327f24386
 ```
 http http://localhost:8080/api/profile/0b9c9f33-4fb1-4dbd-91c8-869327f24386/treesWon
 ```
+
+* Get all the articles
+
+```
+http http://localhost:8080/api/article
+```
+
+* Get all the articles on a given topic
+
+```
+http http://localhost:8080/api/article?topic=Alimentation
+```

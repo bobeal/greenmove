@@ -8,7 +8,8 @@ import org.springframework.web.reactive.function.server.router
 @Configuration
 class Routes(
         private val profileHandler: ProfileHandler,
-        private val topicHandler: TopicHandler
+        private val topicHandler: TopicHandler,
+        private val articleHandler: ArticleHandler
 ) {
 
     @Bean
@@ -24,6 +25,9 @@ class Routes(
                     }
                     "/topic".nest {
                         GET("", topicHandler::getAll)
+                    }
+                    "/article".nest {
+                        GET("", articleHandler::searchByTopic)
                     }
                 }
     }
