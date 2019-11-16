@@ -3,6 +3,7 @@ package fr.greensaver.search.config
 import org.springframework.data.elasticsearch.client.ClientConfiguration
 import org.springframework.data.elasticsearch.client.RestClients
 import org.elasticsearch.client.RestHighLevelClient
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration
@@ -18,8 +19,11 @@ import org.springframework.data.elasticsearch.core.EntityMapper
 )
 class ElasticSearchConfig : AbstractElasticsearchConfiguration() {
 
+    @Value("\${application.es.url}")
+    val esUrl: String? = null
+
     override fun elasticsearchClient(): RestHighLevelClient {
-        return RestClients.create(ClientConfiguration.create("localhost:9200")).rest()
+        return RestClients.create(ClientConfiguration.create(esUrl)).rest()
     }
 
     @Bean
