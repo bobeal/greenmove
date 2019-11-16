@@ -1,9 +1,9 @@
 package fr.greensaver.search.model
 
-import org.neo4j.ogm.annotation.GeneratedValue
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Property
+import org.neo4j.ogm.annotation.Relationship
 import java.util.*
 
 @NodeEntity
@@ -14,8 +14,11 @@ class Profile(
         @Property(name = "hasChild") var hasChild: Boolean,
         @Property(name = "livesInHouse") var livesInHouse: Boolean,
         @Property(name = "preferredMeansOfTransport") var preferredMeansOfTransport: String,
-        @Property(name = "postalCode") var postalCode: String
-)
+        @Property(name = "postalCode") var postalCode: String,
+        @Relationship(type = "INTERESTED_IN", direction = Relationship.OUTGOING) var topics: ArrayList<Topic> = arrayListOf()
+) {
+    fun addTopic(topic: Topic) = this.topics.add(topic)
+}
 
 enum class MeansOfTransport {
     CAR,

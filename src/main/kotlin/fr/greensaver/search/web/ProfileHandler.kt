@@ -2,6 +2,7 @@ package fr.greensaver.search.web
 
 import fr.greensaver.search.model.Profile
 import fr.greensaver.search.repository.ProfileRepository
+import fr.greensaver.search.repository.TopicRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
@@ -15,7 +16,8 @@ import java.net.URI
 
 @Component
 class ProfileHandler(
-        private val profileRepository: ProfileRepository
+        private val profileRepository: ProfileRepository,
+        private val topicRepository: TopicRepository
 ) {
 
     fun create(req: ServerRequest): Mono<ServerResponse> {
@@ -38,6 +40,25 @@ class ProfileHandler(
                 }
                 .flatMap {
                     ok().body(BodyInserters.fromValue(it))
+                }
+    }
+
+    fun addTopic(req: ServerRequest): Mono<ServerResponse> {
+        return Mono.just(req.pathVariable("topicId"))
+                .map {
+                    topicRepository.findById(it).orElseThrow()
+                }
+                .map {
+                    profileRepository.findById(req.pathVariable("id")).map { profile ->
+                        profile.addTopic(it)
+                        profile
+                    }.orElseThrow()
+                }
+                .map {
+                    profileRepository.save(it)
+                }
+                .flatMap {
+                    ok().build()
                 }
     }
 }

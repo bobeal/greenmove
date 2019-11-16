@@ -7,7 +7,8 @@ import org.springframework.web.reactive.function.server.router
 
 @Configuration
 class Routes(
-        private val profileHandler: ProfileHandler
+        private val profileHandler: ProfileHandler,
+        private val topicHandler: TopicHandler
 ) {
 
     @Bean
@@ -17,6 +18,10 @@ class Routes(
                     "/profile".nest {
                         POST("", profileHandler::create)
                         GET("/{id}", profileHandler::getById)
+                        POST("/{id}/topic/{topicId}", profileHandler::addTopic)
+                    }
+                    "/topic".nest {
+                        GET("", topicHandler::getAll)
                     }
                 }
     }
