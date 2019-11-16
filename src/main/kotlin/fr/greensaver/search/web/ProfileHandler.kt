@@ -2,7 +2,6 @@ package fr.greensaver.search.web
 
 import fr.greensaver.search.model.neo4j.Article
 import fr.greensaver.search.model.neo4j.Profile
-import fr.greensaver.search.model.neo4j.ReadArticle
 import fr.greensaver.search.repository.neo4j.ArticleRepository
 import fr.greensaver.search.repository.neo4j.ProfileRepository
 import fr.greensaver.search.repository.neo4j.TopicRepository
@@ -17,7 +16,6 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 import java.net.URI
-import java.time.Instant
 
 @Component
 class ProfileHandler(
@@ -83,8 +81,7 @@ class ProfileHandler(
                 }
                 .map {
                     profileRepository.findById(req.pathVariable("id")).map { profile ->
-                        val readArticle = ReadArticle(readAt = Instant.now(), profile = profile, article = it)
-                        profile.addReadArticle(readArticle, it.treesReward)
+                        profile.addReadArticle(it)
                         profile
                     }.orElseThrow()
                 }
