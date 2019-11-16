@@ -23,3 +23,15 @@ http http://localhost:8080/api/topic
 ```
 http POST http://localhost:8080/api/profile/c0fc3a2a-aae7-4af0-bf4a-7aec40946635/topic/bfaaa366-7d07-4a49-8d75-1998b6641bdb
 ```
+
+* Add a read article to a profile
+
+```
+http POST http://localhost:8080/api/profile/0b9c9f33-4fb1-4dbd-91c8-869327f24386/article/article-ref
+```
+
+* Get a count of trees won by a profile
+
+```
+http http://localhost:8080/api/profile/0b9c9f33-4fb1-4dbd-91c8-869327f24386/treesWon
+```

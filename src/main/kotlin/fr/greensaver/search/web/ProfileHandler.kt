@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 import java.net.URI
 import java.time.Instant
-import java.time.LocalDateTime
 
 @Component
 class ProfileHandler(
@@ -71,7 +70,7 @@ class ProfileHandler(
         return Mono.just(req.pathVariable("articleReference"))
                 .map {
                     articleRepository.findById(it).orElseGet {
-                        articleRepository.save(Article(reference = it, readAt = Instant.now()))
+                        articleRepository.save(Article(reference = it, readAt = Instant.now(), treesWon = 1))
                     }
                 }
                 .map {
@@ -86,5 +85,9 @@ class ProfileHandler(
                 .flatMap {
                     ok().build()
                 }
+    }
+
+    fun treesWon(req: ServerRequest): Mono<ServerResponse> {
+        return ok().body(BodyInserters.fromValue(profileRepository.treesWon(req.pathVariable("id"))))
     }
 }

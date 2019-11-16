@@ -9,5 +9,6 @@ import java.util.*
 class Article(
         @Id var uuid: String = UUID.randomUUID().toString(),
         var reference: String,
-        var readAt: Instant
+        var readAt: Instant,
+        var treesWon: Int
 )
