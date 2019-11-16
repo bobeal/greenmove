@@ -40,6 +40,10 @@ class ProfileHandler(
                 }
     }
 
+    fun getAll(req: ServerRequest): Mono<ServerResponse> {
+        return ok().body(BodyInserters.fromValue(profileRepository.findAll().toList()))
+    }
+
     fun getById(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(req.pathVariable("id"))
                 .map {
