@@ -1,17 +1,17 @@
 package fr.greensaver.search.service
 
 import fr.greensaver.search.model.es.Article
-import fr.greensaver.search.repository.es.ArticleRepository
+import fr.greensaver.search.repository.es.ArticleESRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ArticleService(val articleRepository: ArticleRepository) {
+class ArticleService(val articleESRepository: ArticleESRepository) {
 
     fun searchByTopic(topic: String) : List<Article> {
-        return articleRepository.findAllByTopic(topic)
+        return articleESRepository.findAllByTopic(topic)
     }
 
     fun getArticleById(id: String): Article {
-        return articleRepository.getArticleById(id)
+        return articleESRepository.getArticleById(id)
     }
 }

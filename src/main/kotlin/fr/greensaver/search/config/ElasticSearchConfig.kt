@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @EnableElasticsearchRepositories(
-        basePackages = arrayOf("fr.greensaver.search.repositories")
+        basePackages = arrayOf("fr.greensaver.search.repository.es")
 )
 class ElasticSearchConfig : AbstractElasticsearchConfiguration() {
 
