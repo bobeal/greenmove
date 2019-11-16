@@ -9,6 +9,7 @@ import fr.greensaver.search.repository.neo4j.TopicRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.core.io.ClassPathResource
 import java.io.File
 
 @SpringBootApplication
@@ -25,7 +26,7 @@ class SearchApplication(private val topicRepository: TopicRepository, private va
 
         articleESRepository.findAll().toList().ifEmpty {
             val mapper = jacksonObjectMapper()
-            mapper.readValue<List<Article>>(File("./src/main/resources/articles.json")).forEach {
+            mapper.readValue<List<Article>>(ClassPathResource("articles.json").file).forEach {
                 articleESRepository.save(it)
             }
         }
