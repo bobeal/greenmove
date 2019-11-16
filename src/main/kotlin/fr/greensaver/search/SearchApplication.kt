@@ -9,14 +9,17 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class SearchApplication(private val topicRepository: TopicRepository) : CommandLineRunner {
 
-	override fun run(vararg args: String) {
-		listOf("Domestique", "Mobilité", "Alimentation", "Consommables", "Seconde Vie")
-				.forEach {
-					topicRepository.save(Topic(name = it))
-				}
-	}
+    override fun run(vararg args: String) {
+        topicRepository.findAll().toList().ifEmpty {
+            listOf("Domestique", "Mobilité", "Alimentation", "Consommables", "Seconde Vie")
+                    .forEach {
+                        topicRepository.save(Topic(name = it))
+                    }
+
+        }
+    }
 }
 
 fun main(args: Array<String>) {
-	runApplication<SearchApplication>(*args)
+    runApplication<SearchApplication>(*args)
 }
