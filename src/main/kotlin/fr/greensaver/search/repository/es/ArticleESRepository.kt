@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ArticleESRepository : ElasticsearchRepository<Article, Long> {
+interface ArticleESRepository : ElasticsearchRepository<Article, String> {
     fun findAllByTopic(topic: String): List<Article>
 
     fun getArticleById(id: String): Article
