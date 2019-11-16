@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProfileRepository : Neo4jRepository<Profile, String> {
 
-    @Query("MATCH (n { uuid:{0} })-[HAS_READ]->(a) return sum(a.treesWon)" )
+    @Query("MATCH (n { uuid:{0} }) return n.totalTreesWon" )
     fun treesWon(profileUuid: String): Int
 }
